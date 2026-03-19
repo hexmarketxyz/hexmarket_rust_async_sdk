@@ -7,13 +7,13 @@ Rust client for the [HexMarket](https://www.hexmarket.xyz) prediction market API
 ```toml
 # Cargo.toml
 [dependencies]
-hexmarket-sdk = { git = "https://github.com/hexmarketxyz/hexmarket_rust_async_sdk.git" }
+hexmarket-sdk-async = { git = "https://github.com/hexmarketxyz/hexmarket_rust_async_sdk.git" }
 ```
 
 ## Quick Start
 
 ```rust
-use hexmarket_sdk::*;
+use hexmarket_sdk_async::*;
 
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
@@ -65,7 +65,7 @@ For trading, you need API credentials (`api_key`, `secret`, `passphrase`). Creat
 Each order requires an Ed25519 wallet signature for on-chain settlement:
 
 ```rust
-use hexmarket_sdk::*;
+use hexmarket_sdk_async::*;
 use rust_decimal_macros::dec;
 
 let keypair_bytes = bs58::decode("YourBase58Keypair").into_vec()?;

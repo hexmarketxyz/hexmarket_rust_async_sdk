@@ -6,7 +6,7 @@
 //! ## Quick Start
 //!
 //! ```no_run
-//! use hexmarket_sdk::*;
+//! use hexmarket_sdk_async::*;
 //!
 //! # async fn example() -> Result<(), Box<dyn std::error::Error>> {
 //! // 1. Create client

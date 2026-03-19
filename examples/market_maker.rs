@@ -13,7 +13,7 @@
 //!   export HEX_OUTCOME_ID=<outcome-uuid>
 //!   cargo run --example market_maker
 
-use hexmarket_sdk::*;
+use hexmarket_sdk_async::*;
 use rust_decimal::prelude::*;
 use std::time::Duration;
 

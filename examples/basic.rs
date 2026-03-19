@@ -10,7 +10,7 @@
 //!   export HEX_SECRET=<base64url-secret>
 //!   export HEX_PASSPHRASE=<passphrase>
 
-use hexmarket_sdk::*;
+use hexmarket_sdk_async::*;
 
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {

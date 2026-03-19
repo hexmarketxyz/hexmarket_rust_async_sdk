@@ -17,7 +17,7 @@ pub struct HexClientConfig {
 /// # Example
 ///
 /// ```no_run
-/// use hexmarket_sdk::{HexClient, HexClientConfig, ApiCredentials};
+/// use hexmarket_sdk_async::{HexClient, HexClientConfig, ApiCredentials};
 ///
 /// # async fn example() -> Result<(), Box<dyn std::error::Error>> {
 /// let client = HexClient::new(HexClientConfig {
