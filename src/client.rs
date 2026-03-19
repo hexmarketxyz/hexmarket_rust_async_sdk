@@ -8,7 +8,7 @@ use crate::error::HexSdkError;
 /// Configuration for the HexMarket client.
 #[derive(Debug, Clone)]
 pub struct HexClientConfig {
-    /// API base URL, e.g. `https://api.hexmarket.io` or `http://localhost:8080`.
+    /// API base URL, e.g. `https://api.hexmarket.xyz` or `http://localhost:8080`.
     pub api_url: String,
 }
 
@@ -21,7 +21,7 @@ pub struct HexClientConfig {
 ///
 /// # async fn example() -> Result<(), Box<dyn std::error::Error>> {
 /// let client = HexClient::new(HexClientConfig {
-///     api_url: "https://api.hexmarket.io".into(),
+///     api_url: "https://api.hexmarket.xyz".into(),
 /// });
 ///
 /// // Public endpoints (no auth needed)

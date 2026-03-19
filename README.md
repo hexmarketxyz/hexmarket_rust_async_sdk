@@ -1,6 +1,6 @@
 # HexMarket Rust SDK
 
-Rust client for the [HexMarket](https://hexmarket.io) prediction market API. Built for quantitative trading and market making.
+Rust client for the [HexMarket](https://www.hexmarket.xyz) prediction market API. Built for quantitative trading and market making.
 
 ## Installation
 
@@ -18,7 +18,7 @@ use hexmarket_sdk::*;
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
     let client = HexClient::new(HexClientConfig {
-        api_url: "https://api.hexmarket.io".into(),
+        api_url: "https://api.hexmarket.xyz".into(),
     });
 
     // Browse markets (no auth needed)
@@ -131,7 +131,7 @@ println!("Order placed: {}", resp.order_id);
 Run examples:
 
 ```bash
-export HEX_API_URL=https://api.hexmarket.io
+export HEX_API_URL=https://api.hexmarket.xyz
 cargo run --example basic
 ```
 

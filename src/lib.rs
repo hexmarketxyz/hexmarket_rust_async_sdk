@@ -11,7 +11,7 @@
 //! # async fn example() -> Result<(), Box<dyn std::error::Error>> {
 //! // 1. Create client
 //! let client = HexClient::new(HexClientConfig {
-//!     api_url: "https://api.hexmarket.io".into(),
+//!     api_url: "https://api.hexmarket.xyz".into(),
 //! });
 //!
 //! // 2. Browse markets (no auth needed)
