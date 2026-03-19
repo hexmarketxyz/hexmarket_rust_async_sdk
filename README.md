@@ -24,11 +24,11 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     // Browse markets (no auth needed)
     let events = client.list_events(&Default::default()).await?;
     for event in &events {
-        println!("{}: {} outcomes", event.event.title, event.outcomes.len());
+        println!("{}: {} markets", event.event.title, event.markets.len());
     }
 
     // Read orderbook
-    let outcome_id = &events[0].outcomes[0].id.to_string();
+    let outcome_id = &events[0].markets[0].outcomes[0].id.to_string();
     let book = client.get_orderbook(outcome_id).await?;
     println!("Best bid: {:?}, Best ask: {:?}", book.bids.first(), book.asks.first());
 

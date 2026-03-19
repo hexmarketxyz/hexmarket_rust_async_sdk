@@ -32,21 +32,24 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     println!("=== Active Events ===");
     for item in &events {
         println!(
-            "  {} ({} outcomes)",
+            "  {} ({} markets)",
             item.event.title,
-            item.outcomes.len()
+            item.markets.len()
         );
-        for outcome in &item.outcomes {
-            let price_str = outcome
-                .price
-                .map(|p| format!("{}c", (p * rust_decimal::Decimal::from(100)).round()))
-                .unwrap_or_else(|| "n/a".into());
-            println!("    - {} @ {}", outcome.label, price_str);
+        for market in &item.markets {
+            println!("  [{}]", market.market.title);
+            for outcome in &market.outcomes {
+                let price_str = outcome
+                    .price
+                    .map(|p| format!("{}c", (p * rust_decimal::Decimal::from(100)).round()))
+                    .unwrap_or_else(|| "n/a".into());
+                println!("    - {} @ {}", outcome.label, price_str);
+            }
         }
     }
 
     // Get orderbook for first outcome (if any)
-    if let Some(first_outcome) = events.first().and_then(|e| e.outcomes.first()) {
+    if let Some(first_outcome) = events.first().and_then(|e| e.markets.first()).and_then(|m| m.outcomes.first()) {
         let book = client.get_orderbook(&first_outcome.id.to_string()).await?;
         println!("\n=== Orderbook: {} ===", first_outcome.label);
         println!("  Bids:");

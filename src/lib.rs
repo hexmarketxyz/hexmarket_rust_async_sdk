@@ -17,7 +17,7 @@
 //! // 2. Browse markets (no auth needed)
 //! let events = client.list_events(&Default::default()).await?;
 //! for event in &events {
-//!     println!("{}: {} outcomes", event.event.title, event.outcomes.len());
+//!     println!("{}: {} markets", event.event.title, event.markets.len());
 //! }
 //!
 //! // 3. Set up authentication

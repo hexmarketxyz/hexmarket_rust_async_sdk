@@ -129,10 +129,18 @@ pub struct HexEvent {
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
+pub struct MarketDetail {
+    #[serde(flatten)]
+    pub market: Market,
+    pub outcomes: Vec<Outcome>,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
 pub struct EventListItem {
     #[serde(flatten)]
     pub event: HexEvent,
-    pub outcomes: Vec<Outcome>,
+    pub markets: Vec<MarketDetail>,
     pub tags: Vec<Tag>,
 }
 
@@ -141,8 +149,7 @@ pub struct EventListItem {
 pub struct EventDetail {
     #[serde(flatten)]
     pub event: HexEvent,
-    pub outcomes: Vec<Outcome>,
-    pub markets: Vec<Market>,
+    pub markets: Vec<MarketDetail>,
     pub tags: Vec<Tag>,
 }
 
