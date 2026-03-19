@@ -5,7 +5,7 @@ edition = "2021"
 authors = ["HexMarket Team"]
 license = "MIT"
 description = "Rust SDK for the HexMarket prediction market API — quantitative trading & market making"
-repository = "https://github.com/hexmarketxyz/hexmarket_rust_sdk"
+repository = "https://github.com/hexmarketxyz/hexmarket_rust_async_sdk"
 keywords = ["prediction-market", "trading", "solana", "sdk"]
 categories = ["api-bindings", "finance"]
 

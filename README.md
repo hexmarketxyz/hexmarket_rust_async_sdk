@@ -7,7 +7,7 @@ Rust client for the [HexMarket](https://www.hexmarket.xyz) prediction market API
 ```toml
 # Cargo.toml
 [dependencies]
-hexmarket-sdk = { git = "https://github.com/hexmarketxyz/hexmarket_rust_sdk.git" }
+hexmarket-sdk = { git = "https://github.com/hexmarketxyz/hexmarket_rust_async_sdk.git" }
 ```
 
 ## Quick Start
