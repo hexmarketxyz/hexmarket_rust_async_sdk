@@ -1,5 +1,5 @@
 [package]
-name = "hexmarket-sdk"
+name = "hexmarket-sdk-async"
 version = "0.1.0"
 edition = "2021"
 authors = ["HexMarket Team"]
