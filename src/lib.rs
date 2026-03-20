@@ -76,6 +76,7 @@ pub mod auth;
 pub mod client;
 pub mod error;
 pub mod types;
+pub mod ws;
 
 // Re-export key types at crate root for convenience.
 pub use auth::ApiCredentials;
