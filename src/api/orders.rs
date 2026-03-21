@@ -78,6 +78,58 @@ impl HexClient {
         self.parse(resp).await
     }
 
+    /// Place multiple orders in a single batch (requires L2 auth).
+    /// All orders must belong to the same market.
+    pub async fn batch_place_orders(
+        &self,
+        market_id: &str,
+        orders: &[PlaceOrderParams],
+    ) -> Result<serde_json::Value, HexSdkError> {
+        let path = "/api/v1/orders/batch";
+        let body = serde_json::json!({
+            "market_id": market_id,
+            "orders": orders,
+        });
+        let body_str = serde_json::to_string(&body)
+            .map_err(|e| HexSdkError::Other(e.to_string()))?;
+
+        let headers = self.l2_headers("POST", path, None)?;
+        let resp = headers
+            .apply(self.http.post(self.url(path)))
+            .header("Content-Type", "application/json")
+            .body(body_str)
+            .send()
+            .await?;
+
+        self.parse(resp).await
+    }
+
+    /// Cancel multiple orders in a single batch (requires L2 auth).
+    /// All orders must belong to the same market.
+    pub async fn batch_cancel_orders(
+        &self,
+        market_id: &str,
+        order_ids: &[&str],
+    ) -> Result<serde_json::Value, HexSdkError> {
+        let path = "/api/v1/orders/batch";
+        let body = serde_json::json!({
+            "market_id": market_id,
+            "order_ids": order_ids,
+        });
+        let body_str = serde_json::to_string(&body)
+            .map_err(|e| HexSdkError::Other(e.to_string()))?;
+
+        let headers = self.l2_headers("DELETE", path, None)?;
+        let resp = headers
+            .apply(self.http.delete(self.url(path)))
+            .header("Content-Type", "application/json")
+            .body(body_str)
+            .send()
+            .await?;
+
+        self.parse(resp).await
+    }
+
     /// List closed (filled/cancelled) orders for the authenticated user.
     pub async fn get_closed_orders(
         &self,
