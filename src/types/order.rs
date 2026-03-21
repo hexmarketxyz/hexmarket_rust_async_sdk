@@ -74,7 +74,6 @@ pub struct Order {
 }
 
 #[derive(Debug, Clone, Serialize)]
-#[serde(rename_all = "camelCase")]
 pub struct PlaceOrderParams {
     pub outcome_id: String,
     pub side: Side,
