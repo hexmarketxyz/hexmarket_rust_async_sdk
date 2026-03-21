@@ -32,6 +32,30 @@ impl HexClient {
         self.parse(resp).await
     }
 
+    /// Get an order by client_order_id (requires L2 auth).
+    pub async fn get_order_by_client_id(&self, client_order_id: &str) -> Result<Order, HexSdkError> {
+        let path = format!("/api/v1/orders/client/{}", client_order_id);
+        let headers = self.l2_headers("GET", &path, None)?;
+        let resp = headers
+            .apply(self.http.get(self.url(&path)))
+            .send()
+            .await?;
+
+        self.parse(resp).await
+    }
+
+    /// Cancel an order by client_order_id (requires L2 auth).
+    pub async fn cancel_order_by_client_id(&self, client_order_id: &str) -> Result<serde_json::Value, HexSdkError> {
+        let path = format!("/api/v1/orders/client/{}", client_order_id);
+        let headers = self.l2_headers("DELETE", &path, None)?;
+        let resp = headers
+            .apply(self.http.delete(self.url(&path)))
+            .send()
+            .await?;
+
+        self.parse(resp).await
+    }
+
     /// Cancel all open orders, optionally filtered by market or event (requires L2 auth).
     pub async fn cancel_all_orders(
         &self,
@@ -106,15 +130,18 @@ impl HexClient {
 
     /// Cancel multiple orders in a single batch (requires L2 auth).
     /// All orders must belong to the same market.
+    /// Supports cancellation by `order_ids` and/or `client_order_ids`.
     pub async fn batch_cancel_orders(
         &self,
         market_id: &str,
         order_ids: &[&str],
+        client_order_ids: &[&str],
     ) -> Result<serde_json::Value, HexSdkError> {
         let path = "/api/v1/orders/batch";
         let body = serde_json::json!({
             "market_id": market_id,
             "order_ids": order_ids,
+            "client_order_ids": client_order_ids,
         });
         let body_str = serde_json::to_string(&body)
             .map_err(|e| HexSdkError::Other(e.to_string()))?;

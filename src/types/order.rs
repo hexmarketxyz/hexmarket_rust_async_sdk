@@ -71,6 +71,7 @@ pub struct Order {
     pub created_at: DateTime<Utc>,
     pub updated_at: DateTime<Utc>,
     pub expired_at: Option<DateTime<Utc>>,
+    pub client_order_id: Option<String>,
 }
 
 #[derive(Debug, Clone, Serialize)]
@@ -83,6 +84,8 @@ pub struct PlaceOrderParams {
     pub quantity: u64,
     pub nonce: u64,
     pub signature: String,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub client_order_id: Option<String>,
 }
 
 #[derive(Debug, Clone, Deserialize)]
@@ -90,4 +93,5 @@ pub struct PlaceOrderParams {
 pub struct PlaceOrderResponse {
     pub order_id: String,
     pub status: String,
+    pub client_order_id: Option<String>,
 }
