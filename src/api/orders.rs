@@ -32,6 +32,33 @@ impl HexClient {
         self.parse(resp).await
     }
 
+    /// Cancel all open orders, optionally filtered by market or event (requires L2 auth).
+    pub async fn cancel_all_orders(
+        &self,
+        market_id: Option<&str>,
+        event_id: Option<&str>,
+    ) -> Result<serde_json::Value, HexSdkError> {
+        let mut path = "/api/v1/orders".to_string();
+        let mut params = Vec::new();
+        if let Some(mid) = market_id {
+            params.push(format!("market_id={}", mid));
+        }
+        if let Some(eid) = event_id {
+            params.push(format!("event_id={}", eid));
+        }
+        if !params.is_empty() {
+            path.push('?');
+            path.push_str(&params.join("&"));
+        }
+        let headers = self.l2_headers("DELETE", &path, None)?;
+        let resp = headers
+            .apply(self.http.delete(self.url(&path)))
+            .send()
+            .await?;
+
+        self.parse(resp).await
+    }
+
     /// List open orders for the authenticated user (requires L2 auth).
     pub async fn get_open_orders(
         &self,
