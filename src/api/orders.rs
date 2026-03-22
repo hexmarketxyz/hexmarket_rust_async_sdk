@@ -1,6 +1,9 @@
 use crate::client::HexClient;
 use crate::error::HexSdkError;
-use crate::types::{Order, PlaceOrderParams, PlaceOrderResponse};
+use crate::types::{
+    BatchCancelResponse, BatchPlaceResponse, CancelAllOrdersResponse, CancelOrderResponse, Order,
+    PlaceOrderParams, PlaceOrderResponse,
+};
 
 impl HexClient {
     /// Place a new order (requires L2 auth).
@@ -21,7 +24,7 @@ impl HexClient {
     }
 
     /// Cancel an order by ID (requires L2 auth).
-    pub async fn cancel_order(&self, order_id: &str) -> Result<serde_json::Value, HexSdkError> {
+    pub async fn cancel_order(&self, order_id: &str) -> Result<CancelOrderResponse, HexSdkError> {
         let path = format!("/api/v1/orders/{}", order_id);
         let headers = self.l2_headers("DELETE", &path, None)?;
         let resp = headers
@@ -45,7 +48,7 @@ impl HexClient {
     }
 
     /// Cancel an order by client_order_id (requires L2 auth).
-    pub async fn cancel_order_by_client_id(&self, client_order_id: &str) -> Result<serde_json::Value, HexSdkError> {
+    pub async fn cancel_order_by_client_id(&self, client_order_id: &str) -> Result<CancelOrderResponse, HexSdkError> {
         let path = format!("/api/v1/orders/client/{}", client_order_id);
         let headers = self.l2_headers("DELETE", &path, None)?;
         let resp = headers
@@ -61,7 +64,7 @@ impl HexClient {
         &self,
         market_id: Option<&str>,
         event_id: Option<&str>,
-    ) -> Result<serde_json::Value, HexSdkError> {
+    ) -> Result<CancelAllOrdersResponse, HexSdkError> {
         let mut path = "/api/v1/orders".to_string();
         let mut params = Vec::new();
         if let Some(mid) = market_id {
@@ -108,7 +111,7 @@ impl HexClient {
         &self,
         market_id: &str,
         orders: &[PlaceOrderParams],
-    ) -> Result<serde_json::Value, HexSdkError> {
+    ) -> Result<BatchPlaceResponse, HexSdkError> {
         let path = "/api/v1/orders/batch";
         let body = serde_json::json!({
             "market_id": market_id,
@@ -136,7 +139,7 @@ impl HexClient {
         market_id: &str,
         order_ids: &[&str],
         client_order_ids: &[&str],
-    ) -> Result<serde_json::Value, HexSdkError> {
+    ) -> Result<BatchCancelResponse, HexSdkError> {
         let path = "/api/v1/orders/batch";
         let body = serde_json::json!({
             "market_id": market_id,

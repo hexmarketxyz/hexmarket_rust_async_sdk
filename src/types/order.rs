@@ -89,9 +89,55 @@ pub struct PlaceOrderParams {
 }
 
 #[derive(Debug, Clone, Deserialize)]
-#[serde(rename_all = "camelCase")]
 pub struct PlaceOrderResponse {
     pub order_id: String,
     pub status: String,
     pub client_order_id: Option<String>,
+}
+
+#[derive(Debug, Clone, Deserialize)]
+pub struct CancelOrderResponse {
+    pub order_id: String,
+    pub status: String,
+    pub client_order_id: Option<String>,
+}
+
+#[derive(Debug, Clone, Deserialize)]
+pub struct CancelledOrderRef {
+    pub order_id: String,
+    pub client_order_id: Option<String>,
+}
+
+#[derive(Debug, Clone, Deserialize)]
+pub struct CancelAllOrdersResponse {
+    pub cancelled_count: usize,
+    pub status: String,
+    pub orders: Vec<CancelledOrderRef>,
+}
+
+#[derive(Debug, Clone, Deserialize)]
+pub struct BatchPlaceResult {
+    pub index: usize,
+    pub order_id: Option<String>,
+    pub client_order_id: Option<String>,
+    pub status: String,
+    pub error: Option<String>,
+}
+
+#[derive(Debug, Clone, Deserialize)]
+pub struct BatchPlaceResponse {
+    pub results: Vec<BatchPlaceResult>,
+}
+
+#[derive(Debug, Clone, Deserialize)]
+pub struct BatchCancelResult {
+    pub order_id: String,
+    pub client_order_id: Option<String>,
+    pub status: String,
+    pub error: Option<String>,
+}
+
+#[derive(Debug, Clone, Deserialize)]
+pub struct BatchCancelResponse {
+    pub results: Vec<BatchCancelResult>,
 }
