@@ -1,8 +1,8 @@
 use crate::client::HexClient;
 use crate::error::HexSdkError;
 use crate::types::{
-    BatchCancelResponse, BatchPlaceResponse, CancelAllOrdersResponse, CancelOrderResponse, Order,
-    PlaceOrderParams, PlaceOrderResponse,
+    BatchCancelResponse, BatchPlaceResponse, BatchUpdateResponse, CancelAllOrdersResponse,
+    CancelOrderResponse, Order, PlaceOrderParams, PlaceOrderResponse,
 };
 
 impl HexClient {
@@ -152,6 +152,38 @@ impl HexClient {
         let headers = self.l2_headers("DELETE", path, None)?;
         let resp = headers
             .apply(self.http.delete(self.url(path)))
+            .header("Content-Type", "application/json")
+            .body(body_str)
+            .send()
+            .await?;
+
+        self.parse(resp).await
+    }
+
+    /// Batch update: cancel orders then place new orders in a single request (requires L2 auth).
+    /// All orders must belong to the same market.
+    pub async fn batch_update_orders(
+        &self,
+        market_id: &str,
+        cancel_order_ids: &[&str],
+        place_orders: &[PlaceOrderParams],
+        cancel_client_order_ids: Option<&[&str]>,
+    ) -> Result<BatchUpdateResponse, HexSdkError> {
+        let path = "/api/v1/orders/batch";
+        let mut body = serde_json::json!({
+            "market_id": market_id,
+            "cancel_order_ids": cancel_order_ids,
+            "place_orders": place_orders,
+        });
+        if let Some(ids) = cancel_client_order_ids {
+            body["cancel_client_order_ids"] = serde_json::json!(ids);
+        }
+        let body_str = serde_json::to_string(&body)
+            .map_err(|e| HexSdkError::Other(e.to_string()))?;
+
+        let headers = self.l2_headers("PUT", path, None)?;
+        let resp = headers
+            .apply(self.http.put(self.url(path)))
             .header("Content-Type", "application/json")
             .body(body_str)
             .send()

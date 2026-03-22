@@ -141,3 +141,9 @@ pub struct BatchCancelResult {
 pub struct BatchCancelResponse {
     pub results: Vec<BatchCancelResult>,
 }
+
+#[derive(Debug, Clone, Deserialize)]
+pub struct BatchUpdateResponse {
+    pub cancel_results: Vec<BatchCancelResult>,
+    pub place_results: Vec<BatchPlaceResult>,
+}
