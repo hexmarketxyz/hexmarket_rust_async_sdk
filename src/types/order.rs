@@ -86,6 +86,10 @@ pub struct PlaceOrderParams {
     pub signature: String,
     #[serde(skip_serializing_if = "Option::is_none")]
     pub client_order_id: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub session_pubkey: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub amount: Option<f64>,
 }
 
 #[derive(Debug, Clone, Deserialize)]
